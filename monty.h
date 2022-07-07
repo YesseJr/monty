@@ -1,15 +1,9 @@
-#ifndef MONTY_H
-#define MONTY_H
+#ifndef _MONTY_H_
+#define _MONTY_H_
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <string.h>
 #include <ctype.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-
-/* data structures */
 
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
@@ -28,7 +22,7 @@ typedef struct stack_s
 } stack_t;
 
 /**
- * struct instruction_s - opcoode and its function
+ * struct instruction_s - opcode and its function
  * @opcode: the opcode
  * @f: function to handle the opcode
  *
@@ -41,29 +35,34 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-/* opcodes related prototypes */
-void (*get_op_func(char *token1))(stack_t **stack, unsigned int line_number);
-void push(stack_t **h, unsigned int line_number, const char *n);
-void pop(stack_t **h, unsigned int line_number);
-void pint(stack_t **h, unsigned int line_number);
-void pall(stack_t **h, unsigned int line_number);
-void swap(stack_t **h, unsigned int line_number);
-void nop(stack_t **h, unsigned int line_number);
-void pchar(stack_t **h, unsigned int line_number);
-void pstr(stack_t **h, unsigned int line_number);
-void rotl(stack_t **h, unsigned int line_number);
-void rotr(stack_t **h, unsigned int line_number);
+extern int misc[];
 
-/* calculator prototypes */
-void _add(stack_t **h, unsigned int line_number);
-void _sub(stack_t **h, unsigned int line_number);
-void _mul(stack_t **h, unsigned int line_number);
-void _div(stack_t **h, unsigned int line_number);
-void _mod(stack_t **h, unsigned int line_number);
+#define N_IDX 0
+#define MODE_IDX 1
+#define ERROR_IDX 2
 
-/* doubly linked list related prototypes */
-int add_end_node(stack_t **h, int n);
-void delete_end_node(stack_t **h);
-void free_dlist(stack_t **h);
+#define STAK_MODE 1
+#define QUEU_MODE 0
 
+void (*get_op(char *tok))(stack_t **stack, unsigned int line_number);
+void proc_line(char *buffer, unsigned int line_number, stack_t **stack);
+
+void push(stack_t **stack, unsigned int line_number);
+void pall(stack_t **stack, unsigned int line_number);
+void pint(stack_t **stack, unsigned int line_number);
+void pop(stack_t **stack, unsigned int line_number);
+void swap(stack_t **stack, unsigned int line_number);
+void add(stack_t **stack, unsigned int line_number);
+void sub(stack_t **stack, unsigned int line_number);
+void nop(stack_t **stack, unsigned int line_number);
+void mul(stack_t **stack, unsigned int line_number);
+void mod(stack_t **stack, unsigned int line_number);
+void _div(stack_t **stack, unsigned int line_number);
+void pchar(stack_t **stack, unsigned int line_number);
+void pstr(stack_t **stack, unsigned int line_number);
+void rotl(stack_t **stack, unsigned int line_number);
+void rotr(stack_t **stack, unsigned int line_number);
+void stack_set(stack_t **stack, unsigned int line_number);
+void queue_set(stack_t **stack, unsigned int line_number);
+char check_num(char *num);
 #endif
